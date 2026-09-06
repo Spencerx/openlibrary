@@ -78,7 +78,8 @@ class MyBooksDropperListsPartial:
     def generate(cls) -> dict:
         user_lists = get_user_lists(None)
 
-        dropper = render_template("lists/dropper_lists", user_lists)
+        template = get_jinja_env().get_template("lists/dropper_lists.html.jinja")
+        dropper = template.render(lists=user_lists, json_encode=json_encode)
         list_data = {
             list_data["key"]: {
                 "members": list_data["list_items"],
@@ -88,7 +89,7 @@ class MyBooksDropperListsPartial:
         }
 
         return {
-            "dropper": str(dropper),
+            "dropper": dropper,
             "listData": list_data,
         }
 
